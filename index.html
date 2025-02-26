@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Table Website</title>
+    <title>Simple Table with Links</title>
     <style>
         * {
             margin: 0;
@@ -24,7 +24,7 @@
 
         .container {
             width: 90%;
-            max-width: 600px;
+            max-width: 500px;
             background: white;
             padding: 20px;
             border-radius: 10px;
@@ -48,7 +48,7 @@
         }
 
         th {
-            background: #28a745;
+            background: #007bff;
             color: white;
         }
 
@@ -58,57 +58,59 @@
 
         .input-container {
             display: flex;
+            flex-direction: column;
             gap: 10px;
             margin-top: 15px;
         }
 
         input {
-            flex: 1;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
+            width: 100%;
         }
 
         button {
-            background: #007bff;
+            background: #28a745;
             color: white;
             border: none;
             padding: 10px;
             border-radius: 5px;
             cursor: pointer;
+            width: 100%;
         }
 
         button:hover {
-            background: #0056b3;
+            background: #218838;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>Simple Table</h2>
+        <h2>Simple Table with Links</h2>
         <table id="dataTable">
             <thead>
                 <tr>
-                    <th>#</th>
                     <th>Name</th>
-                    <th>Age</th>
-                    <th>Action</th>
+                    <th>Link</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>John Doe</td>
-                    <td>25</td>
-                    <td><button onclick="deleteRow(this)">Delete</button></td>
+                    <td>Google</td>
+                    <td><a href="https://www.google.com" target="_blank">Visit</a></td>
+                </tr>
+                <tr>
+                    <td>YouTube</td>
+                    <td><a href="https://www.youtube.com" target="_blank">Visit</a></td>
                 </tr>
             </tbody>
         </table>
 
         <div class="input-container">
-            <input type="text" id="nameInput" placeholder="Enter name">
-            <input type="number" id="ageInput" placeholder="Enter age">
+            <input type="text" id="nameInput" placeholder="Enter Name">
+            <input type="text" id="linkInput" placeholder="Enter URL (https://example.com)">
             <button onclick="addRow()">Add</button>
         </div>
     </div>
@@ -116,28 +118,23 @@
     <script>
         function addRow() {
             let name = document.getElementById("nameInput").value.trim();
-            let age = document.getElementById("ageInput").value.trim();
+            let link = document.getElementById("linkInput").value.trim();
 
-            if (name === "" || age === "") return;
+            if (name === "" || link === "") return;
+            if (!link.startsWith("http://") && !link.startsWith("https://")) {
+                alert("Please enter a valid URL starting with http:// or https://");
+                return;
+            }
 
             let table = document.getElementById("dataTable").getElementsByTagName("tbody")[0];
-            let rowCount = table.rows.length;
-            let row = table.insertRow(rowCount);
-
+            let row = table.insertRow();
             row.innerHTML = `
-                <td>${rowCount + 1}</td>
                 <td>${name}</td>
-                <td>${age}</td>
-                <td><button onclick="deleteRow(this)">Delete</button></td>
+                <td><a href="${link}" target="_blank">Visit</a></td>
             `;
 
             document.getElementById("nameInput").value = "";
-            document.getElementById("ageInput").value = "";
-        }
-
-        function deleteRow(button) {
-            let row = button.parentElement.parentElement;
-            row.remove();
+            document.getElementById("linkInput").value = "";
         }
     </script>
 
